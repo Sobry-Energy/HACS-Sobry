@@ -1,0 +1,28 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Sobry",
+        "description": "Paste the API key generated from your Sobry customer area (Profile → API key). It is read-only (price:read) and tied to a single contract.",
+        "data": {
+          "api_key": "API key"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reconnect Sobry",
+        "description": "Your API key is no longer valid (expired or revoked). Generate a new one from your Sobry customer area and paste it here.",
+        "data": {
+          "api_key": "API key"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Invalid, expired or revoked API key.",
+      "cannot_connect": "Unable to reach the Sobry API."
+    },
+    "abort": {
+      "already_configured": "This contract is already configured.",
+      "reauth_successful": "Reconnection successful."
+    }
+  }
+}

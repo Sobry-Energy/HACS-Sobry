@@ -1,0 +1,28 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Sobry",
+        "description": "Collez la clé API générée depuis votre espace client Sobry (Profil → Clé API). Elle est en lecture seule (price:read) et liée à un seul contrat.",
+        "data": {
+          "api_key": "Clé API"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reconnexion Sobry",
+        "description": "Votre clé API n'est plus valide (expirée ou révoquée). Générez-en une nouvelle depuis votre espace client Sobry et collez-la ici.",
+        "data": {
+          "api_key": "Clé API"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Clé API invalide, expirée ou révoquée.",
+      "cannot_connect": "Impossible de contacter l'API Sobry."
+    },
+    "abort": {
+      "already_configured": "Ce contrat est déjà configuré.",
+      "reauth_successful": "Reconnexion réussie."
+    }
+  }
+}

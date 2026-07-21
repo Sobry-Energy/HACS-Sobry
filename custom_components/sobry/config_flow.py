@@ -1,4 +1,4 @@
-"""Config flow pour l'intégration Sobry (authentification par clé API)."""
+"""Config flow et options pour l'intégration Sobry (authentification par clé API)."""
 
 from __future__ import annotations
 
@@ -8,12 +8,29 @@ from typing import Any
 
 import voluptuous as vol
 
-from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
+from homeassistant.config_entries import (
+    ConfigEntry,
+    ConfigFlow,
+    ConfigFlowResult,
+    OptionsFlow,
+)
 from homeassistant.const import CONF_API_KEY
+from homeassistant.core import callback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.selector import (
+    NumberSelector,
+    NumberSelectorConfig,
+    NumberSelectorMode,
+)
 
 from .api import SobryApiClient, SobryApiError, SobryAuthError
-from .const import DOMAIN
+from .const import (
+    CONF_GREEN_THRESHOLD,
+    CONF_RED_THRESHOLD,
+    DEFAULT_GREEN_THRESHOLD,
+    DEFAULT_RED_THRESHOLD,
+    DOMAIN,
+)
 
 STEP_SCHEMA = vol.Schema({vol.Required(CONF_API_KEY): str})
 
@@ -23,10 +40,24 @@ def _key_id(api_key: str) -> str:
     return hashlib.sha256(api_key.encode()).hexdigest()[:16]
 
 
+def _threshold_selector() -> NumberSelector:
+    return NumberSelector(
+        NumberSelectorConfig(
+            min=0, max=2, step=0.01, mode=NumberSelectorMode.BOX, unit_of_measurement="€/kWh"
+        )
+    )
+
+
 class SobryConfigFlow(ConfigFlow, domain=DOMAIN):
     """Configure l'intégration via une clé API Sobry (portée `price:read`)."""
 
     VERSION = 1
+
+    @staticmethod
+    @callback
+    def async_get_options_flow(config_entry: ConfigEntry) -> SobryOptionsFlow:
+        """Expose le réglage des seuils de couleur."""
+        return SobryOptionsFlow()
 
     async def _async_check_key(self, api_key: str) -> dict[str, str]:
         """Teste la clé et retourne un dict d'erreurs (vide si valide)."""
@@ -79,3 +110,28 @@ class SobryConfigFlow(ConfigFlow, domain=DOMAIN):
         return self.async_show_form(
             step_id="reauth_confirm", data_schema=STEP_SCHEMA, errors=errors
         )
+
+
+class SobryOptionsFlow(OptionsFlow):
+    """Réglage des seuils de couleur du prix (€/kWh TTC)."""
+
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Formulaire des seuils vert/rouge."""
+        if user_input is not None:
+            return self.async_create_entry(data=user_input)
+        options = self.config_entry.options
+        schema = vol.Schema(
+            {
+                vol.Required(
+                    CONF_GREEN_THRESHOLD,
+                    default=options.get(CONF_GREEN_THRESHOLD, DEFAULT_GREEN_THRESHOLD),
+                ): _threshold_selector(),
+                vol.Required(
+                    CONF_RED_THRESHOLD,
+                    default=options.get(CONF_RED_THRESHOLD, DEFAULT_RED_THRESHOLD),
+                ): _threshold_selector(),
+            }
+        )
+        return self.async_show_form(step_id="init", data_schema=schema)

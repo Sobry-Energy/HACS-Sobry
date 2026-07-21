@@ -23,7 +23,7 @@
 - [Obtenir votre clé API](#-obtenir-votre-clé-api)
 - [Configuration](#-configuration)
 - [Entités créées](#-entités-créées)
-- [Comprendre les paliers de prix](#-comprendre-les-paliers-de-prix)
+- [Niveau de prix (couleur)](#-niveau-de-prix-couleur)
 - [Exemple d'automatisation](#-exemple-dautomatisation)
 - [Sécurité & confidentialité](#-sécurité--confidentialité)
 - [Gérer ou révoquer votre clé](#-gérer-ou-révoquer-votre-clé)
@@ -44,7 +44,7 @@ Cette intégration **officielle** expose le prix de votre contrat, quart d'heure
 
 - 🔌 **Prix en temps réel** du quart d'heure courant, en €/kWh **TTC** (exactement le tarif que vous payez).
 - 🗓️ **Prix à venir** : les prochaines heures sont exposées en attribut, prêtes pour vos graphiques et vos automatisations anticipées.
-- 🎨 **Palier de prix du créneau** (`GREEN`, `ORANGE`, `RED`, `DARK_GREEN`) pour des automatisations lisibles.
+- 🎨 **Niveau de prix** par seuils (`vert` / `jaune` / `rouge`), **seuils réglables** ; le palier relatif de l'API Sobry reste disponible en complément.
 - 🔐 **Lecture seule, moindre privilège** : la clé n'autorise que la lecture des prix de votre contrat. Elle ne peut **rien modifier** sur votre compte.
 - 🏠 **Multi-contrat** : gérez plusieurs contrats (résidence principale, secondaire…), un par un.
 - 🇫🇷 Interface en français (et anglais).
@@ -100,6 +100,8 @@ C'est tout — **rien d'autre à saisir** : la clé étant liée à un seul cont
 
 **Plusieurs contrats ?** Ajoutez à nouveau l'intégration avec chaque clé : chaque contrat apparaît comme un appareil distinct.
 
+**Régler les seuils de couleur :** *Paramètres → Appareils et services → Sobry → **Configurer*** — ajustez le seuil **vert** (défaut `0,17 €/kWh`) et le seuil **rouge** (défaut `0,21 €/kWh`).
+
 ## 📊 Entités créées
 
 Pour chaque contrat configuré (un appareil **Sobry**) :
@@ -112,22 +114,27 @@ Pour chaque contrat configuré (un appareil **Sobry**) :
 
 | Attribut | Description |
 |---|---|
-| `palier` | Palier tarifaire du créneau : `GREEN`, `ORANGE`, `RED` ou `DARK_GREEN`. |
-| `palier_couleur` | Code couleur hexadécimal du palier (fourni par l'API). |
-| `prix_a_venir` | Liste horodatée des prix des prochains créneaux (24 h à venir). |
+| `niveau` | Niveau de prix par seuils : `vert`, `jaune` ou `rouge`. |
+| `couleur` | Code couleur hexadécimal du niveau (dégradé de vert sous le seuil vert). |
+| `palier` | Palier **relatif** renvoyé par l'API Sobry : `GREEN`, `ORANGE`, `RED` ou `DARK_GREEN`. |
+| `palier_couleur` | Code couleur hexadécimal du palier API. |
+| `prix_a_venir` | Liste horodatée des prix des prochains créneaux (avec leur `niveau`). |
 
 > **Rafraîchissement :** le prix est mis à jour à chaque quart d'heure (minutes 0, 15, 30, 45) ; les prix du lendemain sont récupérés en début d'après-midi. Les appels réseau sont mis en cache pour rester légers (~1 à 2 appels par jour).
 
-## 🎨 Comprendre les paliers de prix
+## 🎨 Niveau de prix (couleur)
 
-Chaque créneau de 15 minutes reçoit un **palier** selon son prix relatif sur la journée. Idéal pour piloter vos appareils sans manipuler de seuils en euros.
+Chaque créneau reçoit un **niveau** selon son prix TTC, avec un **dégradé de vert** pour les prix bas :
 
-| Palier | Couleur | Quand |
+| Niveau | Couleur | Prix (€/kWh TTC) |
 |---|---|---|
-| `DARK_GREEN` | 🟢 vert foncé (`#1B5E20`) | Prix négatif — l'électricité est à son plus bas. |
-| `GREEN` | 🟩 vert (`#6CC264`) | Les **6 heures les moins chères** de la journée. |
-| `ORANGE` | 🟧 orange (`#F0A631`) | Créneaux intermédiaires (par défaut). |
-| `RED` | 🟥 rouge (`#F03131`) | Les **6 heures les plus chères** de la journée. |
+| `vert` | 🟢 → 🟩 dégradé (plus foncé quand c'est moins cher, prix négatif inclus) | **≤ 0,17** |
+| `jaune` | 🟨 | **0,17 – 0,21** |
+| `rouge` | 🟥 | **> 0,21** |
+
+Les **seuils sont réglables** dans les options de l'intégration (*Configurer*).
+
+> En complément, l'attribut `palier` expose le code couleur **relatif** de l'API Sobry — les 6 h les moins / plus chères de la journée (`GREEN` / `ORANGE` / `RED` / `DARK_GREEN`) — identique à celui affiché dans l'app Sobry.
 
 ## 🤖 Exemple d'automatisation
 
@@ -146,14 +153,14 @@ automation:
           entity_id: switch.prise_voiture
 ```
 
-Variante « créneaux les moins chers » (palier vert) :
+Variante par **niveau** (créneaux verts) :
 
 ```yaml
     trigger:
       - platform: state
         entity_id: sensor.sobry_prix_actuel
-        attribute: palier
-        to: "GREEN"
+        attribute: niveau
+        to: "vert"
 ```
 
 Vous pouvez aussi tracer la courbe des prix à venir avec [ApexCharts Card](https://github.com/RomRider/apexcharts-card) à partir de l'attribut `prix_a_venir`.

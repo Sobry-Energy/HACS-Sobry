@@ -11,10 +11,17 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 
+from .color import price_level
 from .const import (
+    ATTR_LEVEL,
+    ATTR_LEVEL_COLOR,
     ATTR_TIER,
     ATTR_TIER_COLOR,
     ATTR_UPCOMING,
+    CONF_GREEN_THRESHOLD,
+    CONF_RED_THRESHOLD,
+    DEFAULT_GREEN_THRESHOLD,
+    DEFAULT_RED_THRESHOLD,
     DOMAIN,
     UNIT_EUR_PER_KWH,
 )
@@ -30,7 +37,7 @@ async def async_setup_entry(
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Configure le capteur de prix pour une entrée."""
-    async_add_entities([SobryPriceSensor(entry.runtime_data, entry.entry_id)])
+    async_add_entities([SobryPriceSensor(entry)])
 
 
 class SobryPriceSensor(CoordinatorEntity[SobryDataUpdateCoordinator], SensorEntity):
@@ -43,14 +50,18 @@ class SobryPriceSensor(CoordinatorEntity[SobryDataUpdateCoordinator], SensorEnti
     _attr_suggested_display_precision = 4
     _attr_icon = "mdi:cash-clock"
 
-    def __init__(
-        self, coordinator: SobryDataUpdateCoordinator, entry_id: str
-    ) -> None:
-        """Initialise le capteur et rattache l'appareil du contrat."""
-        super().__init__(coordinator)
-        self._attr_unique_id = f"{entry_id}_prix_actuel"
+    def __init__(self, entry: SobryConfigEntry) -> None:
+        """Initialise le capteur, ses seuils de couleur et son appareil."""
+        super().__init__(entry.runtime_data)
+        self._green_max = float(
+            entry.options.get(CONF_GREEN_THRESHOLD, DEFAULT_GREEN_THRESHOLD)
+        )
+        self._red_max = float(
+            entry.options.get(CONF_RED_THRESHOLD, DEFAULT_RED_THRESHOLD)
+        )
+        self._attr_unique_id = f"{entry.entry_id}_prix_actuel"
         self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, entry_id)},
+            identifiers={(DOMAIN, entry.entry_id)},
             name="Sobry",
             manufacturer="Sobry",
             model="Électricité dynamique",
@@ -78,17 +89,21 @@ class SobryPriceSensor(CoordinatorEntity[SobryDataUpdateCoordinator], SensorEnti
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
-        """Palier du créneau courant + prix des créneaux à venir."""
+        """Niveau/couleur du créneau courant, palier API, et prix à venir."""
         now = dt_util.utcnow()
-        attrs: dict[str, Any] = {
-            ATTR_UPCOMING: [
-                {"debut": slot.start.isoformat(), "prix": slot.price, ATTR_TIER: slot.tier}
-                for slot in (self.coordinator.data or [])
-                if slot.start > now
-            ]
-        }
+        upcoming: list[dict[str, Any]] = []
+        for slot in self.coordinator.data or []:
+            if slot.start > now:
+                niveau, _ = price_level(slot.price, self._green_max, self._red_max)
+                upcoming.append(
+                    {"debut": slot.start.isoformat(), "prix": slot.price, ATTR_LEVEL: niveau}
+                )
+        attrs: dict[str, Any] = {ATTR_UPCOMING: upcoming}
         slot = self._current_slot()
         if slot is not None:
+            niveau, couleur = price_level(slot.price, self._green_max, self._red_max)
+            attrs[ATTR_LEVEL] = niveau
+            attrs[ATTR_LEVEL_COLOR] = couleur
             attrs[ATTR_TIER] = slot.tier
             attrs[ATTR_TIER_COLOR] = slot.color
         return attrs

@@ -24,5 +24,17 @@
       "already_configured": "This contract is already configured.",
       "reauth_successful": "Reconnection successful."
     }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Price colour thresholds",
+        "description": "Set the price levels (€/kWh incl. tax): green at or below the green threshold, yellow in between, red above the red threshold.",
+        "data": {
+          "green_threshold": "Green threshold (€/kWh)",
+          "red_threshold": "Red threshold (€/kWh)"
+        }
+      }
+    }
   }
 }

@@ -12,57 +12,49 @@
 
   <g clip-path="url(#clip)">
     <rect width="1200" height="300" fill="url(#bg)"/>
-
-    <!-- concentric motif, echo of the Sobry mark -->
     <g fill="none" stroke="#ffffff" stroke-opacity="0.09">
       <circle cx="120" cy="292" r="150" stroke-width="20"/>
       <circle cx="120" cy="292" r="94" stroke-width="20"/>
       <circle cx="120" cy="292" r="42" stroke-width="20"/>
     </g>
 
-    <!-- Sobry logo (white) -->
     <g transform="translate(56,58) scale(1.18)" fill="#ffffff">
       <path d="M16.3262 4.01123C25.3829 4.01144 32.6512 10.7506 32.6514 20.2202C32.6514 29.6901 25.383 36.43 16.3262 36.4302C7.26913 36.4302 0 29.6902 0 20.2202C0.000206021 10.7504 7.26926 4.01123 16.3262 4.01123ZM16.3945 7.34619C9.2849 7.34619 3.46509 12.6929 3.46484 20.2085C3.46497 27.7242 9.28483 33.0718 16.3945 33.0718C23.5041 33.0716 29.3231 27.7241 29.3232 20.2085C29.323 12.693 23.504 7.34634 16.3945 7.34619ZM16.3945 10.9136C21.6649 10.9137 25.781 14.7795 25.7812 20.2085C25.7811 25.6376 21.665 29.5042 16.3945 29.5044C11.1239 29.5044 7.00696 25.6377 7.00684 20.2085C7.00708 14.7794 11.124 10.9136 16.3945 10.9136ZM16.3271 14.8696C13.5279 14.8696 11.3986 16.974 11.3984 20.1108C11.3985 23.2477 13.5278 25.353 16.3271 25.353C19.1264 25.3529 21.2557 23.2477 21.2559 20.1108C21.2557 16.9741 19.1263 14.8697 16.3271 14.8696Z"/>
       <path fill-rule="evenodd" clip-rule="evenodd" d="M81.9259 28.7891C83.3453 30.2981 85.6322 31.0922 87.9584 31.0922C92.3197 31.0922 96.162 28.4312 97.6787 24.2301V30.6952H103.908V17.1146C103.908 15.8439 104.46 15.288 105.722 15.288H107.084L113.019 30.0598L109.747 38.637H116.253L127.056 9.64932H120.55L116.253 22.3165L111.718 9.64932H104.818L104.82 9.65288C100.668 9.74886 98.064 11.7907 97.7181 16.2253C96.2295 11.9602 92.358 9.25223 87.9584 9.25223C85.9082 9.25223 83.8973 9.84786 82.4779 11.0391C82.5568 9.29193 82.5962 7.3859 82.5962 5.6387V0H76.3665V16.7279C74.9422 12.1484 70.7339 9.1331 65.7255 9.1331C59.5353 9.1331 54.5673 13.7394 54.5673 20.2119C54.5673 20.2641 54.5677 20.3162 54.5683 20.3681C53.9382 19.5783 53.0873 18.812 51.9882 18.0279L50.8842 17.2338C49.5831 16.3204 49.1888 15.8836 49.1888 15.4071C49.1888 14.7321 49.9773 14.335 51.6333 14.335C52.1459 14.335 53.0527 14.3747 54.1962 14.5335V9.64932C52.9739 9.45077 51.8699 9.37136 50.8448 9.37136C45.9557 9.37136 43.1562 11.6348 43.1562 15.5263C43.1562 17.8691 44.142 19.5369 46.5471 21.3238L47.7694 22.2371C49.1099 23.2298 49.5831 23.8255 49.5831 24.5005C49.5831 25.3344 48.9128 25.7315 47.2962 25.7315C46.3894 25.7315 45.1277 25.6124 43.3928 25.3741V30.6952C44.9305 30.8937 46.4682 31.0128 47.6511 31.0128C52.3989 31.0128 55.3637 29.0568 55.916 25.6633C57.8014 29.1194 61.4754 31.2908 65.7255 31.2908C70.7339 31.2908 74.9422 28.2755 76.3665 23.696V30.6952H81.8865L81.9259 28.7891ZM87.1304 25.3741C84.2916 25.3741 82.2019 23.349 82.2019 20.1722C82.2019 16.9955 84.2916 14.9703 87.1304 14.9703C90.0087 14.9703 92.1378 16.9955 92.1378 20.1722C92.1378 23.349 90.0087 25.3741 87.1304 25.3741ZM65.7255 25.4535C62.9261 25.4535 60.797 23.349 60.797 20.2119C60.797 17.0749 62.9261 14.9703 65.7255 14.9703C68.5249 14.9703 70.6541 17.0749 70.6541 20.2119C70.6541 23.349 68.5249 25.4535 65.7255 25.4535Z"/>
     </g>
 
-    <!-- headline -->
     <text x="58" y="170" font-family="Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#ffffff">pour Home Assistant</text>
     <text x="58" y="208" font-family="Helvetica,Arial,sans-serif" font-size="21" fill="#fdece4">L'électricité au juste prix, au bon moment.</text>
-
-    <!-- official pill -->
     <g transform="translate(58,228)">
       <rect width="208" height="30" rx="15" fill="#ffffff" fill-opacity="0.16"/>
       <text x="17" y="20" font-family="Helvetica,Arial,sans-serif" font-size="13.5" font-weight="700" fill="#ffffff" letter-spacing="1">INTÉGRATION OFFICIELLE</text>
     </g>
 
-    <!-- price-of-the-day card -->
     <g filter="url(#cardShadow)"><rect x="660" y="46" width="484" height="208" rx="18" fill="#f9f7f3"/></g>
     <text x="690" y="83" font-family="Helvetica,Arial,sans-serif" font-size="17" font-weight="700" fill="#201e21">Prix du jour</text>
-    <text x="1114" y="83" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-size="12.5" fill="#6d686b">€/kWh · pas 15 min</text>
+    <text x="1114" y="83" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-size="12.5" fill="#6d686b">€/kWh TTC · pas 15 min</text>
+      <line x1="686" y1="145.4" x2="1112" y2="145.4" stroke="#c9c1bb" stroke-width="1.5" stroke-dasharray="5 4"/><text x="1112" y="141.4" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#6d686b">0,17 €</text><line x1="686" y1="130.2" x2="1112" y2="130.2" stroke="#c9c1bb" stroke-width="1.5" stroke-dasharray="5 4"/><text x="1112" y="126.2" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#6d686b">0,21 €</text>
+      <rect x="690" y="187.2" width="14" height="22.8" rx="3" fill="#498538"/>
+      <rect x="711" y="191.0" width="14" height="19.0" rx="3" fill="#417E34"/>
+      <rect x="732" y="194.8" width="14" height="15.2" rx="3" fill="#397830"/>
+      <rect x="753" y="191.0" width="14" height="19.0" rx="3" fill="#417E34"/>
+      <rect x="774" y="183.4" width="14" height="26.6" rx="3" fill="#508B3C"/>
+      <rect x="795" y="168.2" width="14" height="41.8" rx="3" fill="#6EA54D"/>
+      <rect x="816" y="149.2" width="14" height="60.8" rx="3" fill="#94C661"/>
+      <rect x="837" y="134.0" width="14" height="76.0" rx="3" fill="#F2B705"/>
+      <rect x="858" y="122.6" width="14" height="87.4" rx="3" fill="#E53935"/>
+      <rect x="879" y="137.8" width="14" height="72.2" rx="3" fill="#F2B705"/>
+      <rect x="900" y="156.8" width="14" height="53.2" rx="3" fill="#85B959"/>
+      <rect x="921" y="164.4" width="14" height="45.6" rx="3" fill="#76AC51"/>
+      <rect x="942" y="160.6" width="14" height="49.4" rx="3" fill="#7EB255"/>
+      <rect x="963" y="149.2" width="14" height="60.8" rx="3" fill="#94C661"/>
+      <rect x="984" y="137.8" width="14" height="72.2" rx="3" fill="#F2B705"/>
+      <rect x="1005" y="118.8" width="14" height="91.2" rx="3" fill="#E53935"/>
+      <rect x="1026" y="107.4" width="14" height="102.6" rx="3" fill="#E53935"/>
+      <rect x="1047" y="126.4" width="14" height="83.6" rx="3" fill="#E53935"/>
+      <rect x="1068" y="153.0" width="14" height="57.0" rx="3" fill="#8DBF5D"/>
+      <rect x="1089" y="172.0" width="14" height="38.0" rx="3" fill="#679F49"/>
     <line x1="686" y1="212" x2="1118" y2="212" stroke="#e4d9d5" stroke-width="2"/>
-    <g>
-      <rect x="690" y="170" width="14" height="40" rx="3" fill="#6CC264"/>
-      <rect x="711" y="180" width="14" height="30" rx="3" fill="#1B5E20"/>
-      <rect x="732" y="182" width="14" height="28" rx="3" fill="#1B5E20"/>
-      <rect x="753" y="176" width="14" height="34" rx="3" fill="#6CC264"/>
-      <rect x="774" y="164" width="14" height="46" rx="3" fill="#6CC264"/>
-      <rect x="795" y="138" width="14" height="72" rx="3" fill="#F0A631"/>
-      <rect x="816" y="106" width="14" height="104" rx="3" fill="#F03131"/>
-      <rect x="837" y="114" width="14" height="96" rx="3" fill="#F03131"/>
-      <rect x="858" y="130" width="14" height="80" rx="3" fill="#F0A631"/>
-      <rect x="879" y="150" width="14" height="60" rx="3" fill="#F0A631"/>
-      <rect x="900" y="160" width="14" height="50" rx="3" fill="#6CC264"/>
-      <rect x="921" y="166" width="14" height="44" rx="3" fill="#6CC264"/>
-      <rect x="942" y="158" width="14" height="52" rx="3" fill="#F0A631"/>
-      <rect x="963" y="152" width="14" height="58" rx="3" fill="#F0A631"/>
-      <rect x="984" y="122" width="14" height="88" rx="3" fill="#F03131"/>
-      <rect x="1005" y="100" width="14" height="110" rx="3" fill="#F03131"/>
-      <rect x="1026" y="110" width="14" height="100" rx="3" fill="#F03131"/>
-      <rect x="1047" y="136" width="14" height="74" rx="3" fill="#F0A631"/>
-      <rect x="1068" y="162" width="14" height="48" rx="3" fill="#6CC264"/>
-      <rect x="1089" y="174" width="14" height="36" rx="3" fill="#6CC264"/>
-    </g>
     <g font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#6d686b">
       <text x="690" y="232">00h</text>
       <text x="892" y="232" text-anchor="middle">12h</text>

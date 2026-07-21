@@ -24,5 +24,17 @@
       "already_configured": "Ce contrat est déjà configuré.",
       "reauth_successful": "Reconnexion réussie."
     }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Seuils de couleur du prix",
+        "description": "Définissez les niveaux de prix (€/kWh TTC) : vert jusqu'au seuil vert, jaune entre les deux, rouge au-dessus du seuil rouge.",
+        "data": {
+          "green_threshold": "Seuil vert (€/kWh)",
+          "red_threshold": "Seuil rouge (€/kWh)"
+        }
+      }
+    }
   }
 }

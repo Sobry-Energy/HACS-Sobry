@@ -25,10 +25,8 @@
 - [Entités créées](#-entités-créées)
 - [Niveau de prix (couleur)](#-niveau-de-prix-couleur)
 - [Exemple d'automatisation](#-exemple-dautomatisation)
-- [Sécurité & confidentialité](#-sécurité--confidentialité)
 - [Gérer ou révoquer votre clé](#-gérer-ou-révoquer-votre-clé)
 - [Dépannage](#-dépannage)
-- [Feuille de route](#-feuille-de-route)
 
 ---
 
@@ -165,14 +163,6 @@ Variante par **niveau** (créneaux verts) :
 
 Vous pouvez aussi tracer la courbe des prix à venir avec [ApexCharts Card](https://github.com/RomRider/apexcharts-card) à partir de l'attribut `prix_a_venir`.
 
-## 🔒 Sécurité & confidentialité
-
-Cette intégration est pensée pour être **sûre par conception** :
-
-- **Moindre privilège.** La clé API a la portée `price:read` et est **limitée à un seul contrat**. Elle ne permet **que** de lire vos prix — aucune écriture, aucun accès à vos moyens de paiement ou à vos factures, aucune capacité à créer ou gérer d'autres clés.
-- **Stockage local.** La clé est conservée par Home Assistant dans sa configuration ; elle n'est **jamais écrite dans les journaux** et apparaît **masquée** dans les diagnostics exportables.
-- **Révocation immédiate.** À tout moment, révoquez la clé depuis votre espace client : l'accès est coupé instantanément. Si Home Assistant détecte une clé invalide, il vous propose d'en **saisir une nouvelle** sans supprimer votre configuration.
-- **Aucun tiers.** L'intégration communique **exclusivement** avec l'API officielle Sobry (`https://api.sobry.co`), en HTTPS. Aucune donnée n'est envoyée ailleurs.
 
 ## 🔄 Gérer ou révoquer votre clé
 
@@ -191,12 +181,6 @@ Tout se passe dans votre espace client (**app.sobry.co → contrat → Profil �
 
 Un problème persistant ? Ouvrez une [issue](https://github.com/Sobry-Energy/HACS-Sobry/issues) (sans jamais y coller votre clé).
 
-## 🚀 Feuille de route
-
-- 🔐 **Connexion OAuth native** (sans clé à copier, avec révocation depuis Sobry).
-- 📊 **Capteurs de suivi** (consommation et coût du mois) — dès que la portée de la clé le permettra.
-- 🔔 Capteurs « prochain créneau vert » et « meilleur moment des prochaines 24 h ».
-- 📈 Intégration au tableau de bord Énergie de Home Assistant.
 
 ## 🧰 Développement
 
@@ -205,7 +189,6 @@ git clone https://github.com/Sobry-Energy/HACS-Sobry.git
 # copiez custom_components/sobry dans le config d'une instance HA de test
 ```
 
-L'API Sobry utilisée est documentée sur **[api.sobry.co/v2/docs](https://api.sobry.co/v2/docs)**. Contributions bienvenues : issues et pull requests.
 
 ## 📄 Licence
 

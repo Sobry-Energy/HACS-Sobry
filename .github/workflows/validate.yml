@@ -22,3 +22,7 @@ jobs:
       - uses: hacs/action@main
         with:
           category: integration
+          # 'brands' se valide via une PR séparée sur home-assistant/brands.
+          ignore: brands
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,49 @@
+name: 🐛 Bug
+description: Signaler un problème avec l'intégration Sobry
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de votre retour ! ⚠️ **Ne collez jamais votre clé API** (`sob_apikey_…`) ni aucun identifiant dans une issue.
+  - type: input
+    id: ha-version
+    attributes:
+      label: Version de Home Assistant
+      placeholder: "2025.x.x"
+    validations:
+      required: true
+  - type: input
+    id: integration-version
+    attributes:
+      label: Version de l'intégration Sobry
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description du problème
+      description: Que se passe-t-il ? Qu'attendiez-vous ?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Étapes pour reproduire
+      placeholder: |
+        1. …
+        2. …
+  - type: textarea
+    id: logs
+    attributes:
+      label: Journaux (logs)
+      description: Paramètres → Système → Journaux, filtrez sur « sobry ». **Masquez toute clé.**
+      render: text
+  - type: checkboxes
+    id: no-secrets
+    attributes:
+      label: Confidentialité
+      options:
+        - label: J'ai vérifié qu'aucune clé API ni donnée personnelle n'apparaît dans cette issue.
+          required: true

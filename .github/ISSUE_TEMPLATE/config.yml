@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Support client Sobry
+    url: https://sobry.co
+    about: Question sur votre contrat, facture ou compte (hors intégration Home Assistant).

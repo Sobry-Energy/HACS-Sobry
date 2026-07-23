@@ -1,0 +1,16 @@
+name: 💡 Suggestion
+description: Proposer une amélioration ou une nouvelle fonctionnalité
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Votre idée
+      description: Quelle fonctionnalité aimeriez-vous ?
+    validations:
+      required: true
+  - type: textarea
+    id: usecase
+    attributes:
+      label: Cas d'usage
+      description: En quoi est-ce utile ? Comment l'utiliseriez-vous ?

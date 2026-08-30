@@ -26,3 +26,28 @@ jobs:
           ignore: brands
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  import:
+    name: Import
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      # hassfest et l'action HACS valident les métadonnées et la structure du dépôt,
+      # jamais le fait que le code s'importe : la 0.1.0 est passée au vert alors
+      # qu'elle ne démarrait chez personne (issue #1). Ce job ferme ce trou.
+      - run: pip install "homeassistant>=2025.3"
+      - name: Importer tous les modules de l'intégration
+        run: |
+          python - <<'PY'
+          import importlib, pathlib, sys
+          sys.path.insert(0, "custom_components")
+          mods = ["sobry"] + [f"sobry.{f.stem}" for f in
+                              sorted(pathlib.Path("custom_components/sobry").glob("*.py"))
+                              if f.stem != "__init__"]
+          for m in mods:
+              importlib.import_module(m)
+              print("ok", m)
+          PY

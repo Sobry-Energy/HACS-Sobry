@@ -1,0 +1,2 @@
+# This plugin pins Home Assistant and its matching test dependencies.
+pytest-homeassistant-custom-component==0.13.364

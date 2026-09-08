@@ -96,11 +96,17 @@ class SobryPriceSensor(CoordinatorEntity[SobryDataUpdateCoordinator], SensorEnti
             if slot.start > now:
                 niveau, _ = price_level(slot.price, self._green_max, self._red_max)
                 upcoming.append(
-                    {"debut": slot.start.isoformat(), "prix": slot.price, ATTR_LEVEL: niveau}
+                    {
+                        "debut": slot.start.isoformat(),
+                        "prix": slot.price,
+                        ATTR_LEVEL: niveau,
+                        "estimated": slot.estimated,
+                    }
                 )
         attrs: dict[str, Any] = {ATTR_UPCOMING: upcoming}
         slot = self._current_slot()
         if slot is not None:
+            attrs["estimated"] = slot.estimated
             niveau, couleur = price_level(slot.price, self._green_max, self._red_max)
             attrs[ATTR_LEVEL] = niveau
             attrs[ATTR_LEVEL_COLOR] = couleur

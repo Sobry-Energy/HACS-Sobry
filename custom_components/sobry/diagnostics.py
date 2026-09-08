@@ -21,5 +21,13 @@ async def async_get_config_entry_diagnostics(
     coordinator = entry.runtime_data
     return {
         "entry_data": async_redact_data(entry.data, TO_REDACT),
-        "prices": coordinator.data,
+        "prices": [
+            {
+                "start": slot.start.isoformat(),
+                "end": slot.end.isoformat(),
+                "price": slot.price,
+                "estimated": slot.estimated,
+            }
+            for slot in coordinator.data or []
+        ],
     }

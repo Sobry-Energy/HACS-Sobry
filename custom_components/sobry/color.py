@@ -18,7 +18,7 @@ _RED = "#E53935"
 
 
 def _to_hex(rgb: tuple[int, int, int]) -> str:
-    return "#%02X%02X%02X" % rgb
+    return f"#{rgb[0]:02X}{rgb[1]:02X}{rgb[2]:02X}"
 
 
 def price_level(price: float, green_max: float, red_max: float) -> tuple[str, str]:

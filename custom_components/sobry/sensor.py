@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any
 
 from homeassistant.components.sensor import SensorEntity, SensorStateClass
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.device_info import DeviceInfo
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
@@ -96,11 +96,17 @@ class SobryPriceSensor(CoordinatorEntity[SobryDataUpdateCoordinator], SensorEnti
             if slot.start > now:
                 niveau, _ = price_level(slot.price, self._green_max, self._red_max)
                 upcoming.append(
-                    {"debut": slot.start.isoformat(), "prix": slot.price, ATTR_LEVEL: niveau}
+                    {
+                        "debut": slot.start.isoformat(),
+                        "prix": slot.price,
+                        ATTR_LEVEL: niveau,
+                        "estimated": slot.estimated,
+                    }
                 )
         attrs: dict[str, Any] = {ATTR_UPCOMING: upcoming}
         slot = self._current_slot()
         if slot is not None:
+            attrs["estimated"] = slot.estimated
             niveau, couleur = price_level(slot.price, self._green_max, self._red_max)
             attrs[ATTR_LEVEL] = niveau
             attrs[ATTR_LEVEL_COLOR] = couleur

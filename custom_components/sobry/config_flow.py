@@ -7,7 +7,6 @@ from collections.abc import Mapping
 from typing import Any
 
 import voluptuous as vol
-
 from homeassistant.config_entries import (
     ConfigEntry,
     ConfigFlow,
@@ -43,7 +42,11 @@ def _key_id(api_key: str) -> str:
 def _threshold_selector() -> NumberSelector:
     return NumberSelector(
         NumberSelectorConfig(
-            min=0, max=2, step=0.01, mode=NumberSelectorMode.BOX, unit_of_measurement="€/kWh"
+            min=0,
+            max=2,
+            step=0.01,
+            mode=NumberSelectorMode.BOX,
+            unit_of_measurement="€/kWh",
         )
     )
 
@@ -104,9 +107,22 @@ class SobryConfigFlow(ConfigFlow, domain=DOMAIN):
             api_key = user_input[CONF_API_KEY].strip()
             errors = await self._async_check_key(api_key)
             if not errors:
-                return self.async_update_reload_and_abort(
-                    self._get_reauth_entry(), data={CONF_API_KEY: api_key}
+                entry = self._get_reauth_entry()
+                unique_id = _key_id(api_key)
+                existing = self.hass.config_entries.async_entry_for_domain_unique_id(
+                    DOMAIN, unique_id
                 )
+                if existing is not None and existing.entry_id != entry.entry_id:
+                    return self.async_abort(reason="already_configured")
+                changed = self.hass.config_entries.async_update_entry(
+                    entry, data={CONF_API_KEY: api_key}, unique_id=unique_id
+                )
+                # Une entrée chargée possède déjà notre listener de reload.
+                # À l'échec du premier setup, ou sans changement de données,
+                # aucun listener ne sera appelé : planifier le reload ici.
+                if not changed or not entry.update_listeners:
+                    self.hass.config_entries.async_schedule_reload(entry.entry_id)
+                return self.async_abort(reason="reauth_successful")
         return self.async_show_form(
             step_id="reauth_confirm", data_schema=STEP_SCHEMA, errors=errors
         )
